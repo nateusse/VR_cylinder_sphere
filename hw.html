@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Using 3D model</title>
+    <meta charset="utf-8">
+    <meta name="description" content="using 3D model in A-Frame">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin: mouse">
+        <a-assets>
+            <img src="./wood.jpg" id="image">
+        </a-assets>
+        <a-sphere src="#image"  position="-2 3 -3"  rotation="0 0 0" radius="1" height="1" color-toggle rotar></a-sphere>
+        <a-cylinder src="./psycho.jpg" position="1 1 -3"  rotation="0 0 0" radius="1" heigh="3.2" color="purple" moving ></a-cylinder>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="20" height="19" src="sand.png"></a-plane>
+        <a-sky color="#82EEFD"></a-sky>
+        <a-entity id="dolly">
+            <a-entity camera position="0 2 0" look-controls wasd-controls>
+                <a-cursor id="cursor" raycaster fuse="true" fusetimeout="3000"></a-cursor>
+            </a-entity>
+        </a-entity>
+    </a-scene>
+    <script>
+        AFRAME.registerComponent('color-toggle', {
+            init: function () {
+                let el = this.el;
+                this.toggleColor = function () {
+                    el.setAttribute('color', "brown");
+                }
+                this.el.addEventListener('click', this.toggleColor);
+            }
+        })
+
+        AFRAME.registerComponent('moving', {
+            init: function () {
+                let el = this.el;
+                this.animateMoving = function (e) {
+                    let curPosition = el.getAttribute('position');
+                    let params = {
+                        property: 'rotation',
+                        to: {
+                            x: 360,
+                            y: 360,
+                            z: 360
+                        },
+                        dur: 7000,
+                        easing: 'linear',
+                        loop:true
+                       
+                    };
+                    el.setAttribute('animation', params);
+                    
+                }
+                this.el.addEventListener('click', this.animateMoving);
+            },
+            remove: function () {
+                this.el.removeEventListener('click', this.animateMoving);
+            }
+        });
+
+        AFRAME.registerComponent('rotar', {
+            init: function () {
+                let el = this.el;
+                this.animateMoving = function (e) {
+                    let curPosition = el.getAttribute('position');
+                    let params = {
+                        property: 'position',
+                        to: {
+                            y: 1,
+                        },
+                        repeat: "indefinite",
+                        dur: 7000,
+                        easing:'linear',
+                    
+                    };
+                    el.setAttribute('animation', params);
+                }
+                this.el.addEventListener('click', this.animateMoving);
+            },
+            remove: function () {
+                this.el.removeEventListener('click', this.animateMoving);
+            }
+        });
+
+
+        /*rotation="0 0 0" color="purple" target-marker
+        animation="property: rotation; to: 10 360 50; easing: linear; dur:7000; " */
+      
+
+        
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
